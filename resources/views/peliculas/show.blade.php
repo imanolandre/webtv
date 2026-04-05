@@ -62,17 +62,17 @@
 
             <div id="media-player-container" class="mt-8 rounded-2xl overflow-hidden bg-black aspect-video shadow-[0_0_50px_rgba(0,0,0,0.8)] relative">
 
-                <video id="player" controls playsinline>
+    <iframe
+        src="https://andretv.4meplayer.com/#xbup1"
+        class="absolute inset-0 w-full h-full"
+        frameborder="0"
+        scrolling="no"
+        allowfullscreen
+        allow="autoplay; encrypted-media; picture-in-picture"
+        referrerpolicy="no-referrer">
+    </iframe>
 
-                    <source id="video-source" src="https://pub-6336b00c4d014ae4bd3170adebc52ec4.r2.dev/SoloLevelingcap1.mp4" type="video/mp4">
-
-                    <track id="video-subtitles" kind="captions" label="Español Latino" srclang="es" src="{{ asset('assets/movies/subs/hoppers.vtt') }}" default>
-
-                    Tu navegador no soporta el reproductor.
-
-                </video>
-
-            </div>
+</div>
 
         </div>
 

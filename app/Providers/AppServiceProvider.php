@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Schema::defaultStringLength(191);
+        Schema::defaultStringLength(125);
         // Forzar HTTPS en producción para evitar el error de Mixed Content
         if (app()->environment('production')) {
             URL::forceScheme('https');

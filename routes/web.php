@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StreamController;
+use App\Models\Channel; // Importamos el modelo
 use Illuminate\Http\Request;
 
 // Página de aterrizaje (Landing Page)
@@ -9,28 +10,29 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Sección de TV en Vivo (tu vista existente)
+// Sección de TV en Vivo - DINÁMICA
 Route::get('/tv', function () {
-    return view('tv');
+    // Obtenemos solo los canales activos para mostrar en el frontend
+    $channels = $canales = Channel::all();
+    return view('tv', compact('channels'));
 });
 
-// NUEVO: Catálogo de Películas (tipo imagen 2)
+// Catálogo de Películas
 Route::get('/peliculas', function () {
     return view('peliculas.welcome');
 })->name('peliculas.welcome');
 
-// NUEVO: Vista detallada de una Película (con Plyr)
+// Vista detallada de una Película
 Route::get('/peliculas/{slug}', function ($slug) {
-    // Aquí puedes buscar la película por su slug. De momento es un ejemplo estático.
     if ($slug === 'hoppers-operacion-castor') {
         return view('peliculas.show');
     }
     abort(404);
 })->name('peliculas.show');
 
-// Proxy de Streaming (tu ruta existente)
+// Proxy de Streaming
 Route::get('/stream-proxy', [StreamController::class, 'play'])->name('stream.proxy');
 
-// NUEVO: Endpoint para obtener la URL dinámica de América TV para el frontend
+// Endpoints de Streaming
 Route::get('/stream/dynamic/america', [StreamController::class, 'getAmericaTvUrl']);
 Route::get('/video-stream/{filename}', [StreamController::class, 'streamMovie'])->name('video.stream');

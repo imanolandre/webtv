@@ -25,6 +25,8 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->homeUrl('/') // Redirige al hacer clic en el logo
+            ->authGuard('web')
             ->default()
             ->id('admin')
             ->path('admin')

@@ -7,6 +7,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -19,9 +20,21 @@ class UsersTable
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('email')
+                    ->icon(Heroicon::Envelope)
+                    ->iconColor('primary')
                     ->label('Email address')
                     ->searchable(),
                 TextColumn::make('roles.name')
+                    ->badge()
+                    ->color(function ($state) {
+                        $role = is_array($state) ? ($state[0] ?? null) : $state;
+
+                        return match ($role) {
+                            'super_admin' => 'success',
+                            'Usuario' => 'warning',
+                            default => 'secondary',
+                        };
+                    })
                     ->label('Roles')
                     ->searchable(),
                 TextColumn::make('email_verified_at')

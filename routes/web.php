@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StreamController;
 use App\Models\Channel; // Importamos el modelo
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+// Todas estas rutas requieren estar logueado
+Route::middleware(['checkRole'])->group(function () {
 
 // Página de aterrizaje (Landing Page)
 Route::get('/', function () {
@@ -36,3 +40,7 @@ Route::get('/stream-proxy', [StreamController::class, 'play'])->name('stream.pro
 // Endpoints de Streaming
 Route::get('/stream/dynamic/america', [StreamController::class, 'getAmericaTvUrl']);
 Route::get('/video-stream/{filename}', [StreamController::class, 'streamMovie'])->name('video.stream');
+
+});
+
+

@@ -13,8 +13,8 @@
 @include('partials.navbar')
 <main class="w-full h-auto relative pt-20">
     <div class="max-w-6xl mx-auto p-4 md:p-8">
-        <header class="mb-8 flex justify-between items-center border-b border-slate-800 pb-4">
-            <a href="/" class="text-2xl font-black tracking-tighter text-blue-500 italic">PRUEBA<span class="text-white">TV</span></a>
+        <header class="mb-8 flex justify-end items-center border-b border-slate-800 pb-4">
+
             <div class="flex items-center gap-2">
                 <span class="relative flex h-2 w-2">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>

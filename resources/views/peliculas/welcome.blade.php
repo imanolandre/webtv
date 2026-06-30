@@ -10,58 +10,103 @@
 
     @include('partials.navbar') <main class="w-full h-full relative pt-20">
 
-        <div class="relative w-full h-[80vh] flex items-center mb-10">
-            <div class="absolute inset-0">
-                <img src="{{ asset('assets/movies/backdrops/hoppers-operación-castor-horizontal.webp') }}" alt="Hoppers backdrop" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-r from-[#0f1014] via-[#0f1014]/60 to-transparent"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-[#0f1014] via-transparent to-transparent"></div>
-            </div>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-            <div class="relative z-10 px-4 md:px-12 max-w-3xl mt-20">
-                <h2 class="text-5xl md:text-7xl font-black mb-4 tracking-tight drop-shadow-xl text-white">HOPPERS</h2>
+        <div class="bg-[#0f0f0f] text-white min-h-screen font-sans">
 
-                <div class="flex gap-4 text-sm font-bold mb-6 text-slate-300 items-center">
-                    <span class="text-green-500">98% para ti</span>
-                    <span>2024</span>
-                    <span class="border border-slate-500 px-2 py-0.5 rounded text-xs">13+</span>
-                    <span>1h 45m</span>
-                    <span class="bg-white/20 px-2 py-0.5 rounded text-xs">4K HDR</span>
+            <section class="relative h-[85vh] w-full">
+                <div class="swiper hero-swiper h-full w-full">
+                    <div class="swiper-wrapper">
+                        @foreach($heroMovies as $movie)
+                        <div class="swiper-slide relative">
+                            <div class="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent z-10"></div>
+                            <img src="{{ asset('storage/' . $movie->poster_landscape) }}" class="w-full h-full object-cover">
+
+                            <div class="absolute bottom-20 left-10 md:left-20 z-20 max-w-2xl">
+                                <h1 class="text-5xl md:text-7xl font-bold mb-4 uppercase tracking-tighter">{{ $movie->title }}</h1>
+                                <div class="flex items-center gap-4 mb-6 text-sm text-gray-300">
+                                    <span class="bg-yellow-500 text-black px-2 py-0.5 rounded font-bold">7.6 /10</span>
+                                    <span>{{ $movie->year }}</span>
+                                    <span>1h 47m</span> </div>
+                                <p class="text-gray-300 text-lg mb-8 line-clamp-3">
+                                    {{ $movie->description }}
+                                </p>
+                                <div class="flex gap-4">
+                                    <a href="{{ route('peliculas.show', $movie->id) }}" class="bg-white text-black px-8 py-3 rounded-md font-bold hover:bg-gray-200 transition flex items-center gap-2">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                        VER AHORA
+                                    </a>
+                                    <button class="bg-white/20 backdrop-blur-md px-8 py-3 rounded-md font-bold hover:bg-white/30 transition">
+                                        + MIS FAVORITOS
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-pagination"></div>
                 </div>
+            </section>
 
-                <p class="text-slate-200 text-lg mb-8 line-clamp-3 drop-shadow-md font-medium">
-                    (Aquí va la descripción de la película). Clark Kent intenta equilibrar su herencia kryptoniana...
-                </p>
-
-                <div class="flex gap-4">
-                    <a href="/peliculas/hoppers-operacion-castor" class="bg-white text-black px-8 py-3 rounded-lg font-bold text-lg hover:bg-white/80 transition flex items-center gap-2 hover:scale-105">
-                        <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                        Ver Ahora
-                    </button>
-                    <button class="bg-slate-500/40 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-slate-500/60 transition backdrop-blur-md flex items-center gap-2 hover:scale-105">
-                        <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                        Más Info
-                    </button>
+            <section class="py-12 px-10">
+                <h2 class="text-xl font-bold mb-8 uppercase tracking-widest text-gray-400">Top Películas del Día</h2>
+                <div class="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
+                    @foreach($topMovies as $index => $movie)
+                    <div class="relative flex-none w-48 group">
+                        <span class="absolute -left-6 bottom-0 text-[120px] font-black leading-none text-white/10 italic group-hover:text-white/20 transition-colors z-0">
+                            {{ $index + 1 }}
+                        </span>
+                        <a href="{{ route('peliculas.show', $movie->id) }}" class="group block">
+                            <div class="relative overflow-hidden rounded-xl aspect-[2/3] mb-3 shadow-lg border border-white/5">
+                                <img src="{{ asset('storage/' . $movie->poster_portrait) }}" class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-115">
+                                </div>
+                        </a>
+                    </div>
+                    @endforeach
                 </div>
-            </div>
+            </section>
+
+            <section class="py-12 px-10">
+                <h2 class="text-xl font-bold mb-8 uppercase tracking-widest text-gray-400">Películas</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-6">
+                    @foreach($allMovies as $movie)
+                    <a href="{{ route('peliculas.show', $movie->id) }}" class="group block">
+                        <div class="relative overflow-hidden rounded-xl aspect-[2/3] mb-3 shadow-lg border border-white/5">
+                            <img src="{{ asset('storage/' . $movie->poster_portrait) }}"
+                                class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-115">
+
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <div class="p-3 bg-white/20 backdrop-blur-sm rounded-full">
+                                    <svg class="w-8 h-8" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="text-sm font-semibold truncate group-hover:text-yellow-500 transition-colors">
+                            {{ $movie->title }}
+                        </h3>
+                    </a>
+                    @endforeach
+                </div>
+            </section>
+
         </div>
 
-        <div class="px-4 md:px-12">
-            <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-100">Catálogo de Películas</h3>
-            <div class="flex gap-4 overflow-x-auto pb-8 pt-4">
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script>
+            const swiper = new Swiper('.hero-swiper', {
+                loop: true,
+                autoplay: { delay: 5000 },
+                pagination: { el: '.swiper-pagination', clickable: true },
+            });
+        </script>
 
-                <div class="min-w-[140px] md:min-w-[200px] cursor-pointer hover:scale-110 transition-all duration-300 rounded-xl overflow-hidden shadow-2xl border border-white/5"
-                     onclick="location.href='/peliculas/hoppers-operacion-castor'">
-                    <img src="{{ asset('assets/movies/covers/hoppers-operación-castor.webp') }}"
-                         class="w-full h-[210px] md:h-[300px] object-cover" alt="Hoppers poster">
-                </div>
+        <style>
+            /* Ocultar barra de scroll en el Top 10 */
+            .scrollbar-hide::-webkit-scrollbar { display: none; }
+            .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-            </div>
-        </div>
-
-    </main>
-
-    <script>
-        //Efecto Navbar... (puedes reutilizar el script del welcome)
-    </script>
+            /* Zoom personalizado */
+            .group-hover\:scale-115:hover { transform: scale(1.15); }
+        </style>
 </body>
 </html>

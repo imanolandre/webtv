@@ -1,13 +1,15 @@
 # Usamos una imagen oficial de PHP con Apache
 FROM php:8.2-apache
 
-# Instalamos dependencias del sistema y Node.js (para compilar Tailwind/Vite)
+# Instalamos dependencias del sistema y Node.js
+# [NUEVO] Agregamos libicu-dev para soportar la extensión intl de Filament
 RUN apt-get update && apt-get install -y \
     libzip-dev zip unzip libpng-dev libonig-dev libxml2-dev \
-    curl nodejs npm libpq-dev
+    curl nodejs npm libpq-dev libicu-dev
 
-# Instalamos las extensiones de PHP necesarias para el ecosistema de Laravel (incluyendo soporte para PostgreSQL)
-RUN docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd zip
+# Instalamos las extensiones de PHP necesarias para el ecosistema de Laravel
+# [NUEVO] Agregamos intl al final
+RUN docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd zip intl
 
 # Traemos Composer para manejar las dependencias de PHP
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -17,6 +19,9 @@ WORKDIR /var/www/html
 
 # Copiamos todos los archivos de nuestro repositorio a la nube
 COPY . .
+
+# [NUEVO] Le quitamos el límite de memoria a Composer para evitar cuellos de botella en la capa gratuita
+ENV COMPOSER_MEMORY_LIMIT=-1
 
 # Instalamos dependencias del backend y compilamos los assets del frontend
 RUN composer install --no-dev --optimize-autoloader

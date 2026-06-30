@@ -6,6 +6,7 @@ use App\Models\Channel; // Importamos el modelo
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Movie;
+use Illuminate\Support\Facades\Artisan;
 
 // Todas estas rutas requieren estar logueado
 Route::middleware(['checkRole'])->group(function () {
@@ -46,7 +47,10 @@ Route::get('/stream-auto', [StreamController::class, 'autoFetchChannel'])->name(
 // Endpoints de Streaming
 Route::get('/stream/dynamic/america', [StreamController::class, 'getAmericaTvUrl']);
 Route::get('/video-stream/{filename}', [StreamController::class, 'streamMovie'])->name('video.stream');
-
+Route::get('/instalar-bd', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return '¡Migraciones ejecutadas con éxito! Ya puedes entrar al panel.';
+});
 });
 
 

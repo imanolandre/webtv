@@ -1,5 +1,5 @@
 # Usamos una imagen oficial de PHP con Apache
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 # Instalamos dependencias del sistema y Node.js
 # [NUEVO] Agregamos libicu-dev para soportar la extensión intl de Filament

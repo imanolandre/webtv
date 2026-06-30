@@ -36,3 +36,6 @@ RUN a2enmod rewrite
 
 # Abrimos el puerto 80 para la transmisión
 EXPOSE 80
+
+# Ejecutamos migraciones automáticamente y luego encendemos el servidor web
+CMD php artisan migrate --force && apache2-foreground

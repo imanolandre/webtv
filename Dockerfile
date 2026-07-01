@@ -38,4 +38,5 @@ RUN a2enmod rewrite
 EXPOSE 80
 
 # Ejecutamos migraciones automáticamente y luego encendemos el servidor web
-CMD php artisan migrate --force && apache2-foreground
+# Limpiamos caché, ejecutamos migraciones y encendemos el servidor web
+CMD php artisan config:clear && php artisan migrate --force && apache2-foreground
